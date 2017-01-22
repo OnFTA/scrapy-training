@@ -32,10 +32,13 @@ class PhimBatHu(scrapy.Spider):
 
         item['image'] = response.xpath('//img[@itemprop="image"]/@src').extract_first()
 
-        type = response.xpath('//dt[contains(string(), "Thể loại")]/following::dd[1]//text()').extract()
-        item['type'] = "".join(str(tmp).strip() for tmp in type)
+        category = response.xpath('//dt[contains(string(), "Thể loại")]/following::dd[1]//text()').extract()
+        item['category'] = "".join(str(tmp).strip() for tmp in category)
 
-        item['quality'] = response.xpath('//dt[contains(string(), "Đang phát:")]/following::dd[1]/text()').extract_first()
+        status = response.xpath('//dt[contains(string(), "Đang phát:")]/following::dd[1]/text()').extract_first('').strip()
+        item['quality'] = status[-3:].strip()
+
+        item['type'] = status[:-3].strip()
 
         item['year'] = response.xpath(
             '//dt[contains(string(), "Năm xuất bản:")]/following::dd[1]/text()').extract_first()
