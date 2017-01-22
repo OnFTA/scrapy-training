@@ -31,10 +31,13 @@ class CrawlerFilm(scrapy.Spider):
         url_imgs = re.match(r'.*&url=(.*)', url_img_raw, re.I)
         item['image'] = url_imgs.group(1)
 
-        type = response.xpath('//dt[contains(string(), "Thể loại")]/following::dd[1]//text()').extract()
-        item['type'] = "".join(str(tmp).strip() for tmp in type)
+        category = response.xpath('//dt[contains(string(), "Thể loại")]/following::dd[1]//text()').extract()
+        item['category'] = "".join(str(tmp).strip() for tmp in category)
 
         item['quality'] = response.xpath('//span[@class="status"]/text()').extract_first()
+
+        status = response.xpath('//dt[contains(string(), "Status")]/following::dd[1]/text()').extract_first()
+        item['type'] = status[status.find(' '):].strip()
 
         item['year'] = response.xpath('//dt[contains(string(), "Năm phát hành:")]/following::dd[1]//text()').extract_first()
 
