@@ -16,6 +16,10 @@ class CrawlerFilm(scrapy.Spider):
             url = selector.xpath('./@href').extract_first('')
             yield scrapy.Request(url, callback=self.parse_detail)
 
+        next_page = response.xpath('//span[@class="current"]/following::span[1]/a/@href').extract_first()
+        if(next_page):
+            yield scrapy.Request(next_page, callback=self.parse)
+
     def parse_detail(self, response):
 
         item = CrawlerFilmItem()
@@ -47,3 +51,5 @@ class CrawlerFilm(scrapy.Spider):
         item['country'] = response.xpath('//dt[contains(string(), "Quốc gia:")]/following::dd[1]//text()').extract_first()
 
         item['crawl_at'] = self.allowed_domains[0]
+
+        return item
