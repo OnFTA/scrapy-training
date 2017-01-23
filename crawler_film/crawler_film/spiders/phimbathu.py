@@ -36,9 +36,7 @@ class PhimBatHu(scrapy.Spider):
         item['category'] = "".join(str(tmp).strip() for tmp in category)
 
         status = response.xpath('//dt[contains(string(), "Đang phát:")]/following::dd[1]/text()').extract_first('').strip()
-        item['quality'] = status[-3:].strip()
-
-        item['type'] = status[:-3].strip()
+        item['quality'] = status
 
         item['year'] = response.xpath(
             '//dt[contains(string(), "Năm xuất bản:")]/following::dd[1]/text()').extract_first()
