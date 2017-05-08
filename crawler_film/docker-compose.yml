@@ -1,0 +1,15 @@
+version: "2"
+services:
+ scrapy:
+  image: crawler_film
+  networks:
+   - mongodb_default
+  volumes:
+   - ./:/crawler_film/
+  tty: true
+  hostname: scrapy
+  entrypoint: /crawler_film/start.sh
+
+networks:
+ mongodb_default:
+  external: true
