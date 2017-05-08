@@ -1,0 +1,14 @@
+version: "2"
+services:
+  scrapy:
+    image: film
+    networks:
+      - mongodb_default
+    volumes:
+      - ./:/phim/
+    hostname: scrapy
+    tty: true
+
+networks:
+  mongodb_default:
+    external: true

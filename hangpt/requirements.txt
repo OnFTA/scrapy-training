@@ -1,0 +1,4 @@
+scrapy
+pymongo
+python-dateutil
+pymysql
